@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import DatabaseStatus from '../components/databaseStatus';
+
 
 export default function Home() {
   return (
@@ -16,7 +16,7 @@ export default function Home() {
         </h1>
         <div>
       <h1>Database Status Page</h1>
-      <DatabaseStatus />
+      
     </div>
 
        </main>

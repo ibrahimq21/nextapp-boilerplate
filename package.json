@@ -6,7 +6,8 @@
     "docker_build": "docker build -t nextapp-container .",
     "docker_run": "docker run -p 3000:3000 nextapp-container",
     "docker": "npm run docker_build && npm run docker_run",
-    "start": "next start"
+    "start": "next start",
+    "server":"node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
