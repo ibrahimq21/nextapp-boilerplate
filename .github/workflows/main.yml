@@ -36,7 +36,7 @@ jobs:
     - name: Build and push Docker image
       run: |
         docker build -t nextapp-container .
-        docker tag nextapp-container ibraimq21/nextapp-container:latest
+        #docker tag nextapp-container ibraimq21/nextapp-container:latest
         docker push ibraimq21/nextapp-container:latest
 
     - name: Deploy Docker container
