@@ -6,40 +6,40 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
         node-version: 14
-
-    - name: Install dependencies
-      run: npm install
 
     - name: Build Next.js app
-      run: npm run build
+      run: npm install && npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - name: Set up Docker
+      uses: docker/setup-docker@v2
       with:
-        node-version: 14
+        dockerfile: Dockerfile
+        context: . # Path to your app's Dockerfile
 
-    - name: Install dependencies
-      run: npm install --production
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ibraimq21
+        password: dckr_pat_8oREQ1iYUsVsrIqCJA6F8BGAzOw
 
-    - name: Start Next.js app
-      run: npm run dev
+    - name: Build and push Docker image
+      run: |
+        docker build -t nextapp-container .
+        docker tag nextapp ibraimq21/nextapp-container:latest
+        docker push ibraimq21/nextapp-container:latest
+
+    - name: Deploy Docker container
+      run: |
+        docker pull ibraimq21/nextapp-container:latest
+        docker run -d -p 3000:3000 ibraimq21/nextapp-container:latest
